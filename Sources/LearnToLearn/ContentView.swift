@@ -46,12 +46,15 @@ struct ContentView: View {
                 case .study(let request): StudyView(request: request)
                 }
             }.environmentObject(store).preferredColorScheme(.dark).tint(Theme.accent)
+                .alert("Das hat nicht geklappt", isPresented: Binding(get: { store.error != nil }, set: { if !$0 { store.error = nil } })) {
+                    Button("OK", role: .cancel) { store.error = nil }
+                } message: { Text(store.error ?? "") }
         }
         .alert(store.deletion?.title ?? "Löschen?", isPresented: Binding(get: { store.deletion != nil }, set: { if !$0 { store.deletion = nil } })) {
             Button("Abbrechen", role: .cancel) { store.deletion = nil }
             Button("Löschen", role: .destructive) { if let target = store.deletion { store.delete(target) } }
         } message: { Text(store.deletion?.detail ?? "") }
-        .alert("Das hat nicht geklappt", isPresented: Binding(get: { store.error != nil }, set: { if !$0 { store.error = nil } })) {
+        .alert("Das hat nicht geklappt", isPresented: Binding(get: { store.error != nil && store.sheet == nil }, set: { if !$0 { store.error = nil } })) {
             Button("OK", role: .cancel) { store.error = nil }
         } message: { Text(store.error ?? "") }
         .onChange(of: store.destination) { _, _ in store.search = "" }
@@ -137,7 +140,7 @@ struct SidebarView: View {
     }
     private func nav(_ title: String, icon: String, destination: Destination, count: Int? = nil, color: Color = Theme.muted) -> some View {
         let selected = isSelected(destination)
-        return Button { store.destination = destination } label: {
+        return Button { store.search = ""; store.destination = destination } label: {
             HStack(spacing: 12) {
                 Image(systemName: icon).font(.system(size: 15)).foregroundStyle(selected ? Theme.accent : color).frame(width: 19)
                 Text(title).font(.system(size: 12, weight: selected ? .semibold : .regular)).lineLimit(1)
@@ -291,7 +294,7 @@ struct ModuleTile: View {
     @EnvironmentObject var store: AppStore
     let module: LearningModule
     var body: some View {
-        Button { store.destination = .module(module.id) } label: {
+        Button { store.search = ""; store.destination = .module(module.id) } label: {
             VStack(alignment: .leading, spacing: 17) {
                 HStack { IconBadge(icon: module.icon, color: Theme.color(module.color), size: 38); Spacer(); Image(systemName: "arrow.up.right").font(.system(size: 10)).foregroundStyle(Theme.muted) }
                 VStack(alignment: .leading, spacing: 5) { Text(module.title).font(.system(size: 15, weight: .semibold)).lineLimit(1); Text("\(module.sets.count) Lernsets · \(module.cards.count) Karten").font(.system(size: 10)).foregroundStyle(Theme.muted) }
@@ -310,7 +313,7 @@ struct SetRow: View {
     let module: LearningModule
     let set: LearningSet
     var body: some View {
-        Button { store.destination = .set(module.id, set.id) } label: {
+        Button { store.search = ""; store.destination = .set(module.id, set.id) } label: {
             HStack(spacing: 13) {
                 IconBadge(icon: "rectangle.stack", color: Theme.color(module.color), size: 35)
                 VStack(alignment: .leading, spacing: 5) { Text(set.title).font(.system(size: 12, weight: .medium)); Text("\(module.title) · \(set.cards.count) Karten").font(.system(size: 10)).foregroundStyle(Theme.muted) }
