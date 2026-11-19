@@ -1,0 +1,28 @@
+Erstelle aus den folgenden Modulinhalten ein Lernpaket für die macOS-App Learn to Learn.
+Gib ausschließlich valides JSON aus (ohne Markdown-Codeblock).
+
+Struktur:
+{"format":"learn-to-learn","version":1,"modules":[{"title":"Modulname","subtitle":"Beschreibung","color":"orange","icon":"books.vertical","sets":[{"title":"Kapitel / Thema","description":"Lernziel","cards":[...]}]}]}
+
+Unterstützte Karten (immer mit "type" und "prompt"):
+- flashcard: "answer" als Text.
+- multipleChoice: "options" (2–12 eindeutige Texte), "correctIndices" (Liste richtiger Indizes ab 0). Einzel- oder Mehrfachauswahl.
+- textInput: "answer" und optional "acceptedAnswers" als Liste zusätzlicher korrekter Schreibweisen.
+- trueFalse: "answer" ist der STRING "true" oder "false", kein JSON-Boolean.
+- cloze: "prompt" enthält genau einmal {{blank}}; "answer", optional "acceptedAnswers".
+- ordering: "options" (2–12 eindeutige Texte) IN DER RICHTIGEN REIHENFOLGE. Die App mischt sie beim Lernen.
+- matching: "pairs" mit 2–10 Objekten aus "left" und "right". Linke und rechte Begriffe müssen jeweils eindeutig sein.
+
+Optional bei allen Karten: "explanation" (kurze Erklärung), "hint" (Hinweis), "tags" (Liste).
+Farben: orange, blue, purple, green, pink, yellow.
+Symbole z. B. books.vertical, atom, function, terminal, chart.xyaxis.line.
+Einfache Markdown-Formatierung ist möglich. Formeln als Unicode-/Klartext; kein LaTeX-Renderer.
+Keine IDs, Zeitstempel oder Lernfortschritte angeben.
+
+Gliedere den Stoff in sinnvolle Lernsets. Mische passende Fragetypen. Eine Karte soll einen klaren Lerngegenstand abfragen. Nutze nur belegte Modulinhalte, erfinde keine Fakten. Frage bei unklaren Aussagen nach. Lege keine leeren Lernsets an.
+
+Modulname:
+[Hier eintragen]
+
+Modulinhalte:
+[Hier Skript, Notizen oder Zusammenfassung einfügen]

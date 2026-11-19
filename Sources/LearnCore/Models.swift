@@ -215,4 +215,12 @@ public enum AnswerChecker {
     public static func multipleChoice(_ selection: Set<Int>, for card: LearningCard) -> Bool {
         !selection.isEmpty && selection == Set(card.correctIndices ?? [])
     }
+    public static func ordering(_ order: [Int], for card: LearningCard) -> Bool {
+        let expected = Array((card.options ?? []).indices)
+        return !expected.isEmpty && order == expected
+    }
+    public static func matching(_ matches: [Int: Int], for card: LearningCard) -> Bool {
+        guard let pairs = card.pairs, !pairs.isEmpty, matches.count == pairs.count else { return false }
+        return pairs.indices.allSatisfy { matches[$0] == $0 }
+    }
 }

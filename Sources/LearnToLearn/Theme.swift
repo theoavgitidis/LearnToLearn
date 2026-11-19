@@ -24,20 +24,24 @@ extension Color {
 }
 
 struct PrimaryButtonStyle: ButtonStyle {
+    @Environment(\.isEnabled) private var isEnabled
     var color: Color = Theme.accent
     func makeBody(configuration: Configuration) -> some View {
         configuration.label.font(.system(size: 13, weight: .semibold)).foregroundStyle(Theme.sidebar)
             .padding(.horizontal, 17).padding(.vertical, 12).background(color.opacity(configuration.isPressed ? 0.75 : 1), in: RoundedRectangle(cornerRadius: 10))
             .contentShape(RoundedRectangle(cornerRadius: 10))
+            .opacity(isEnabled ? 1 : 0.4)
     }
 }
 
 struct QuietButtonStyle: ButtonStyle {
+    @Environment(\.isEnabled) private var isEnabled
     func makeBody(configuration: Configuration) -> some View {
         configuration.label.font(.system(size: 13, weight: .medium)).foregroundStyle(Theme.text)
             .padding(.horizontal, 14).padding(.vertical, 11)
             .background(configuration.isPressed ? Theme.raised : Theme.surface, in: RoundedRectangle(cornerRadius: 9))
             .overlay(RoundedRectangle(cornerRadius: 9).stroke(Theme.border))
+            .opacity(isEnabled ? 1 : 0.4)
     }
 }
 

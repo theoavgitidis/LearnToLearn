@@ -2,6 +2,34 @@ import XCTest
 @testable import LearnCore
 
 final class LearnCoreTests: XCTestCase {
+    func testInteractiveAnswerChecks() {
+        let order = LearningCard(type: .ordering, prompt: "?", options: ["A", "B", "C"])
+        XCTAssertTrue(AnswerChecker.ordering([0, 1, 2], for: order))
+        XCTAssertFalse(AnswerChecker.ordering([1, 0, 2], for: order))
+        XCTAssertFalse(AnswerChecker.ordering([0, 1], for: order))
+        let match = LearningCard(type: .matching, prompt: "?", pairs: [.init(left: "A", right: "a"), .init(left: "B", right: "b")])
+        XCTAssertTrue(AnswerChecker.matching([0: 0, 1: 1], for: match))
+        XCTAssertFalse(AnswerChecker.matching([0: 1, 1: 0], for: match))
+        XCTAssertFalse(AnswerChecker.matching([0: 0], for: match))
+        XCTAssertFalse(AnswerChecker.matching([0: 0, 1: -1], for: match))
+    }
+    func testPublishedExampleImports() throws {
+        let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+        let data = try Data(contentsOf: root.appendingPathComponent("Examples/Alle-Fragetypen.json"))
+        let package = try LearningPackage.decode(data)
+        XCTAssertEqual(package.cardCount, 7)
+        XCTAssertEqual(Set(package.materialize().flatMap(\.cards).map(\.type)), Set(QuestionType.allCases))
+    }
+    func testImportRejectsAmbiguousAndEmptyAnswers() {
+        let duplicate = CardPayload(LearningCard(type: .multipleChoice, prompt: "?", options: ["A", " a "], correctIndices: [0]))
+        XCTAssertThrowsError(try duplicate.validate(path: "Test"))
+        let boolean = CardPayload(LearningCard(type: .trueFalse, prompt: "?", answer: "Wahr"))
+        XCTAssertThrowsError(try boolean.validate(path: "Test"))
+        let empty = CardPayload(LearningCard(type: .textInput, prompt: "?", acceptedAnswers: [" "]))
+        XCTAssertThrowsError(try empty.validate(path: "Test"))
+        let cloze = CardPayload(LearningCard(type: .cloze, prompt: "{{blank}} und {{blank}}", answer: "A"))
+        XCTAssertThrowsError(try cloze.validate(path: "Test"))
+    }
     func testAllQuestionTypesRoundTrip() throws {
         let package = Demo.package
         let decoded = try LearningPackage.decode(package.encoded())

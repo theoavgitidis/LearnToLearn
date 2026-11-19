@@ -1,0 +1,67 @@
+{
+  "format": "learn-to-learn",
+  "version": 1,
+  "modules": [
+    {
+      "title": "Lernen lernen",
+      "subtitle": "Beispiel für alle sieben Fragetypen",
+      "color": "orange",
+      "icon": "sparkles",
+      "sets": [
+        {
+          "title": "Wirksame Lernmethoden",
+          "description": "Aktives Abrufen, verteiltes Wiederholen und ein sinnvoller Lernzyklus.",
+          "cards": [
+            {
+              "type": "flashcard",
+              "prompt": "Was bedeutet **Active Recall**?",
+              "answer": "Wissen aktiv aus dem Gedächtnis abrufen, ohne die Antwort vorher nachzulesen.",
+              "explanation": "Schließe das Skript und erkläre den Begriff aus dem Kopf.",
+              "tags": ["Lernstrategie"]
+            },
+            {
+              "type": "multipleChoice",
+              "prompt": "Welche Methoden fördern langfristiges Behalten?",
+              "options": ["Verteiltes Wiederholen", "Nur bunt markieren", "Aktives Abrufen", "Alles in einer Nacht lernen"],
+              "correctIndices": [0, 2],
+              "explanation": "Spaced Repetition und Active Recall ergänzen sich."
+            },
+            {
+              "type": "textInput",
+              "prompt": "Wie heißt zeitlich verteiltes Wiederholen auf Englisch?",
+              "answer": "Spaced Repetition",
+              "acceptedAnswers": ["spaced practice"],
+              "hint": "Zwei Wörter mit S und R."
+            },
+            {
+              "type": "trueFalse",
+              "prompt": "Wiedererkennen und freies Erklären sind dieselbe Leistung.",
+              "answer": "false",
+              "explanation": "Wiedererkennen ist meist leichter als eigenständiger Abruf."
+            },
+            {
+              "type": "cloze",
+              "prompt": "Beim Active Recall rufst du Wissen aus dem {{blank}} ab.",
+              "answer": "Gedächtnis",
+              "acceptedAnswers": ["Gedaechtnis"]
+            },
+            {
+              "type": "ordering",
+              "prompt": "Ordne die Schritte eines sinnvollen Lernzyklus.",
+              "options": ["Inhalt verstehen", "Ohne Vorlage abrufen", "Antwort kontrollieren", "Später wiederholen"]
+            },
+            {
+              "type": "matching",
+              "prompt": "Ordne die Methoden ihrer Beschreibung zu.",
+              "pairs": [
+                {"left": "Active Recall", "right": "Aus dem Kopf abrufen"},
+                {"left": "Spaced Repetition", "right": "Mit Abständen üben"},
+                {"left": "Interleaving", "right": "Aufgabentypen abwechseln"}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

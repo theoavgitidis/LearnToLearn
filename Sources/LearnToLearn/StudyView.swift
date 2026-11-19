@@ -246,8 +246,8 @@ struct StudyQuestionView: View {
         case .multipleChoice: correct = AnswerChecker.multipleChoice(selected, for: card)
         case .textInput, .cloze: correct = AnswerChecker.accepts(typed, for: card)
         case .trueFalse: correct = truth == (card.answer == "true")
-        case .ordering: correct = order == Array((card.options ?? []).indices)
-        case .matching: correct = (card.pairs ?? []).indices.allSatisfy { matches[$0] == $0 }
+        case .ordering: correct = AnswerChecker.ordering(order, for: card)
+        case .matching: correct = AnswerChecker.matching(matches, for: card)
         }
         revealed = true; textFocused = false
     }

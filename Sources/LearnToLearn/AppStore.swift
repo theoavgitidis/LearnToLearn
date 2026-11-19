@@ -108,12 +108,6 @@ final class AppStore: ObservableObject {
         }) { sheet = nil }
     }
     func delete(_ target: DeleteTarget) {
-        let deletedIDs: Set<UUID>
-        switch target {
-        case .module(let module): deletedIDs = Set(module.cards.map(\.id))
-        case .set(_, let set): deletedIDs = Set(set.cards.map(\.id))
-        case .card(_, _, let card): deletedIDs = [card.id]
-        }
         let success = commit { library in
             switch target {
             case .module(let module): library.modules.removeAll { $0.id == module.id }
@@ -126,7 +120,6 @@ final class AppStore: ObservableObject {
             }
             // Keep historical review counts even after content deletion.
         }
-        _ = deletedIDs
         if success {
             switch target { case .module: destination = .home; case .set(let moduleID, _): destination = .module(moduleID); case .card: break }
             notify("Gelöscht")
@@ -167,6 +160,7 @@ final class AppStore: ObservableObject {
     func exportContent(modules: [LearningModule]? = nil) {
         do {
             let package = LearningPackage(library: LearningLibrary(modules: modules ?? library.modules))
+            try package.validate()
             try saveFile(data: package.encoded(), name: "Lernsets.json")
         } catch { self.error = error.localizedDescription }
     }
