@@ -116,7 +116,7 @@ struct SetDetailView: View {
                     }
                     HStack(spacing: 12) {
                         Button { store.startStudy(cards: store.locations.filter { $0.set.id == setID && $0.card.progress.due <= Date() }, title: set.title) } label: { Label("Fällige lernen (\(set.dueCount()))", systemImage: "play.fill") }.buttonStyle(PrimaryButtonStyle()).disabled(set.dueCount() == 0)
-                        Button { store.startStudy(cards: store.locations.filter { $0.set.id == setID }, title: set.title, practice: true) } label: { Label("Alle üben", systemImage: "arrow.trianglehead.2.clockwise.rotate.90") }.buttonStyle(QuietButtonStyle()).disabled(set.cards.isEmpty).help("Freies Üben verändert den Wiederholungsplan nicht")
+                        Button { store.startStudy(cards: store.locations.filter { $0.set.id == setID }, title: set.title, practice: true) } label: { Label("Alle üben", systemImage: "arrow.clockwise") }.buttonStyle(QuietButtonStyle()).disabled(set.cards.isEmpty).help("Freies Üben verändert den Wiederholungsplan nicht")
                         Spacer()
                         Button { store.sheet = .card(moduleID, setID, nil) } label: { Label("Neue Karte", systemImage: "plus") }.buttonStyle(QuietButtonStyle())
                     }

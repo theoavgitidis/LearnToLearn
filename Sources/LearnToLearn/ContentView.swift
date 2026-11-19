@@ -168,13 +168,13 @@ struct DashboardView: View {
                         Text("Schön, dass du da bist.").font(.system(size: 28, weight: .semibold))
                     }
                     Spacer()
-                    Label("\(store.library.streak()) Tage in Folge", systemImage: "flame").font(.system(size: 12, weight: .medium)).foregroundStyle(Theme.accent).padding(.horizontal, 13).padding(.vertical, 9).background(Theme.accent.opacity(0.08), in: Capsule())
+                    Label("\(store.library.streak().counted("Tag", "Tage")) in Folge", systemImage: "flame").font(.system(size: 12, weight: .medium)).foregroundStyle(Theme.accent).padding(.horizontal, 13).padding(.vertical, 9).background(Theme.accent.opacity(0.08), in: Capsule())
                 }
                 hero
                 HStack(spacing: 16) {
                     metric(value: "\(store.dueCards.count)", title: "Heute fällig", icon: "sun.max", color: Theme.accent, caption: "Bereit für eine Wiederholung")
                     metric(value: "\(store.library.cards.filter(\.isMastered).count)", title: "Sicheres Wissen", icon: "checkmark.seal", color: Theme.green, caption: "Karten langfristig gefestigt")
-                    metric(value: "\(store.library.cards.count)", title: "In deiner Bibliothek", icon: "rectangle.stack", color: Theme.color("blue"), caption: "\(store.library.sets.count) Lernsets · \(store.library.modules.count) Module")
+                    metric(value: "\(store.library.cards.count)", title: "In deiner Bibliothek", icon: "rectangle.stack", color: Theme.color("blue"), caption: "\(store.library.sets.count.counted("Lernset", "Lernsets")) · \(store.library.modules.count.counted("Modul", "Module"))")
                 }
                 HStack(alignment: .top, spacing: 22) {
                     VStack(alignment: .leading, spacing: 17) {
@@ -297,7 +297,7 @@ struct ModuleTile: View {
         Button { store.search = ""; store.destination = .module(module.id) } label: {
             VStack(alignment: .leading, spacing: 17) {
                 HStack { IconBadge(icon: module.icon, color: Theme.color(module.color), size: 38); Spacer(); Image(systemName: "arrow.up.right").font(.system(size: 10)).foregroundStyle(Theme.muted) }
-                VStack(alignment: .leading, spacing: 5) { Text(module.title).font(.system(size: 15, weight: .semibold)).lineLimit(1); Text("\(module.sets.count) Lernsets · \(module.cards.count) Karten").font(.system(size: 10)).foregroundStyle(Theme.muted) }
+                VStack(alignment: .leading, spacing: 5) { Text(module.title).font(.system(size: 15, weight: .semibold)).lineLimit(1); Text("\(module.sets.count.counted("Lernset", "Lernsets")) · \(module.cards.count.counted("Karte", "Karten"))").font(.system(size: 10)).foregroundStyle(Theme.muted) }
                 GeometryReader { geo in ZStack(alignment: .leading) { Capsule().fill(Theme.raised); Capsule().fill(Theme.color(module.color).opacity(0.65)).frame(width: geo.size.width * CGFloat(module.cards.filter(\.isMastered).count) / CGFloat(max(1, module.cards.count))) } }.frame(height: 3)
             }.panel(padding: 18)
         }.buttonStyle(.plain).contextMenu {

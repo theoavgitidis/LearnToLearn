@@ -56,9 +56,10 @@ final class AppStore: ObservableObject {
     let repository: LibraryRepository
     private(set) var storageBlocked = false
 
-    init() {
+    init(repository override: LibraryRepository? = nil) {
         let arguments = ProcessInfo.processInfo.arguments
-        if let index = arguments.firstIndex(of: "--data-dir"), arguments.indices.contains(index + 1) {
+        if let override { repository = override }
+        else if let index = arguments.firstIndex(of: "--data-dir"), arguments.indices.contains(index + 1) {
             repository = LibraryRepository(url: URL(fileURLWithPath: arguments[index + 1]).appendingPathComponent("library.json"))
         } else { repository = .standard }
         do {

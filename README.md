@@ -2,6 +2,8 @@
 
 Eine native, deutschsprachige macOS-App zum Lernen mit Karteikarten und interaktiven Fragen. SwiftUI, lokale JSON-Speicherung, keine Drittanbieter-Abhängigkeiten, kein Konto und keine Serververbindung.
 
+![Learn to Learn – native macOS-Oberfläche](docs/Dashboard.png)
+
 ## Starten
 
 Voraussetzungen: macOS 14 oder neuer und Xcode 15 oder neuer mit Swift 5.9+. Getestet mit macOS 15.6.1, Xcode 16.2 und Apple Silicon.
@@ -58,6 +60,7 @@ Zum isolierten Testen ohne Änderung eigener Lerndaten:
 - `Sources/LearnCore`: Modelle, Importprüfung, Antwortvergleich, Wiederholungsplan und Persistenz.
 - `Sources/LearnToLearn`: native SwiftUI-Oberfläche, Editor, Import, Einstellungen und Lerneinheiten.
 - `Tests/LearnCoreTests`: Tests für alle Fragetypen im Import, Validierung, Wiederholungen, Antworten, Lernserie und Sicherungen.
+- `Tests/AppIntegrationTests`: Prüfung von Anlegen/Bearbeiten/Löschen, Importen mit Erhalt des Fortschritts, Neustarts und Wiederherstellung beschädigter Daten.
 - `scripts`: reproduzierbarer App-Build und mit AppKit erzeugtes App-Icon.
 
 CI prüft auf macOS die Tests und erstellt eine startbare App als Workflow-Artefakt.
